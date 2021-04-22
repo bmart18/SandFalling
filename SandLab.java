@@ -15,9 +15,11 @@ public class SandLab
   public static final int WATER = 3;
   public static final int RUSTEDMETAL = 4;
   public static final int SAND = 5;
+  public static final int LAVA = 6;
+  public static final int STONE = 7;
   public int rustCounter = 0;
   public int rustDestroyer = 0;
-
+  public int lavacounter = 0;
   
   //do not add any more fields
   private int[][] grid;
@@ -26,13 +28,15 @@ public class SandLab
   public SandLab(int numRows, int numCols)
   {
     String[] names;
-    names = new String[6]; 
+    names = new String[8]; 
     names[EMPTY] = "Empty";
     names[METAL] = "Metal";
     names[DIRT] = "Dirt";
     names[WATER] = "Water";
     names[RUSTEDMETAL] = "Rusted Metal";
     names[SAND] = "Sand";
+    names[LAVA] = "Lava";
+    names[STONE] = "Stone";
     display = new SandDisplay("Falling Sand", numRows, numCols, names);
     
     grid = new int[numRows][numCols];
@@ -47,26 +51,47 @@ public class SandLab
     
   }
 
+  
+  public boolean checkNeighbors(int gridx, int gridy, int block)
+  {
+	  if(((gridx+1 < grid.length) && grid[gridx +1][gridy] == block) || 
+		        (gridx+1 < grid.length && gridy+1 < grid[0].length && grid[gridx+1][gridy+1] == block) ||
+		        (gridx+1 < grid.length && gridy-1 > 0 && grid[gridx+1][gridy-1] == block) ||
+		        (gridy+1 < grid[0].length && grid[gridx][gridy+1] == block) || 
+		        (gridy-1 > 0 && grid[gridx][gridy-1] == block) ||  
+		        (gridx-1 > 0 && grid[gridx -1][gridy] == block) ||
+		        (gridx-1 > 0 && gridy+1 < grid[0].length && grid[gridx-1][gridy+1] == block) || 
+		        (gridx-1 > 0 && gridy-1 > 0 && grid[gridx-1][gridy-1] == block)){
+		      return true;
+	  }
+	return false;
+  }
+  
   //copies each element of grid into the display
   public void updateDisplay()
   {
     Color black = new Color(0,0,0);
     Color gray = new Color(100,100,100);
     Color rust = new Color(183, 65, 14);
+    Color lava = new Color(200,75,0);
+    Color stone = new Color(61, 59, 56);
     Color brown = new Color(101,67,33);
     for(int i = 0; i < grid.length; i++){
       for(int j = 0; j <grid[0].length; j++){
          if(grid[i][j] == 1){
             display.setColor(i,j,gray);
-         }else if(grid[i][j] == 2){
+         }else if(grid[i][j] == DIRT){
          display.setColor(i,j,brown);
-         }else if(grid[i][j] == 3){
+         }else if(grid[i][j] == WATER){
          display.setColor(i,j,Color.blue);
-         }else if(grid[i][j]==4){
+         }else if(grid[i][j]==RUSTEDMETAL){
          display.setColor(i,j, rust);
-         }else if(grid[i][j]==5){
-         
+         }else if(grid[i][j]==SAND){
          display.setColor(i,j,Color.yellow);
+         }else if(grid[i][j]==LAVA){
+         display.setColor(i,j,lava);
+         }else if(grid[i][j]==STONE){
+         display.setColor(i,j,stone);
          }else{
          display.setColor(i,j,black); 
          }
@@ -84,62 +109,47 @@ public class SandLab
     
     int randomOne = (int)dRandomOne;
     int randomTwo = (int)dRandomTwo;
-    if(grid[randomOne][randomTwo] == 5){
+    if(grid[randomOne][randomTwo] == SAND){
       double waterRandom = Math.random();
       if(waterRandom < 0.33){
          if(grid[randomOne+1][randomTwo]== 0){
          grid[randomOne][randomTwo]=0;
-         grid[randomOne+1][randomTwo]=5;
-      }else if(grid[randomOne+1][randomTwo]==3){
-         grid[randomOne][randomTwo] = 3;
-         grid[randomOne+1][randomTwo] = 5;
+         grid[randomOne+1][randomTwo]=SAND;
+      }else if(grid[randomOne+1][randomTwo]==WATER){
+         grid[randomOne][randomTwo] = WATER;
+         grid[randomOne+1][randomTwo] = SAND;
       }
          
       }else if(waterRandom < 0.66 && randomTwo+1 < grid[0].length){
          if(grid[randomOne+1][randomTwo+1]== 0){
          grid[randomOne][randomTwo]=0;
-         grid[randomOne+1][randomTwo+1]=5;
-      }else if(grid[randomOne+1][randomTwo+1]==3){
-         grid[randomOne][randomTwo] = 3;
-         grid[randomOne+1][randomTwo+1] = 5;
+         grid[randomOne+1][randomTwo+1]=SAND;
+      }else if(grid[randomOne+1][randomTwo+1]==WATER){
+         grid[randomOne][randomTwo] = WATER;
+         grid[randomOne+1][randomTwo+1] = SAND;
       }
 
       }else if((randomTwo-1 >= 0)){
          if(grid[randomOne+1][randomTwo-1]== 0){
          grid[randomOne][randomTwo]=0;
-         grid[randomOne+1][randomTwo-1]=5;
-      }else if(grid[randomOne+1][randomTwo-1]==3){
-         grid[randomOne][randomTwo] = 3;
-         grid[randomOne+1][randomTwo-1] = 5;
+         grid[randomOne+1][randomTwo-1]=SAND;
+      }else if(grid[randomOne+1][randomTwo-1]==WATER){
+         grid[randomOne][randomTwo] = WATER;
+         grid[randomOne+1][randomTwo-1] = SAND;
       }
 
       }
 
     }
-    if(grid[randomOne][randomTwo] == 1 && 
-        ((randomOne+1 < grid.length && grid[randomOne +1][randomTwo] == 3) || 
-        (randomOne+1 < grid.length && randomTwo+1 < grid[0].length && grid[randomOne+1][randomTwo+1] == 3) ||
-        (randomOne+1 < grid.length && randomTwo-1 > 0 && grid[randomOne+1][randomTwo-1] == 3) ||
-        (randomTwo+1 < grid[0].length && grid[randomOne][randomTwo+1] == 3) || 
-        (randomTwo-1 > 0 && grid[randomOne][randomTwo-1] == 3) ||  
-        (randomOne-1 > 0 && grid[randomOne -1][randomTwo] == 3) ||
-        (randomOne-1 > 0 && randomTwo+1 < grid[0].length && grid[randomOne-1][randomTwo+1] == 3) || 
-        (randomOne-1 > 0 && randomTwo-1 > 0 && grid[randomOne-1][randomTwo-1] == 3))){
+    if((grid[randomOne][randomTwo] == 1) && (checkNeighbors(randomOne,randomTwo, WATER))){
       rustCounter+=1;
       if(rustCounter > 4000){
-         grid[randomOne][randomTwo] = 4;
+         grid[randomOne][randomTwo] = RUSTEDMETAL;
          rustCounter = 0;
       }
     }
-    if(grid[randomOne][randomTwo] == 4 && 
-        ((randomOne+1 < grid.length && grid[randomOne +1][randomTwo] == 3) || 
-        (randomOne+1 < grid.length && randomTwo+1 < grid[0].length && grid[randomOne+1][randomTwo+1] == 3) ||
-        (randomOne+1 < grid.length && randomTwo-1 > 0 && grid[randomOne+1][randomTwo-1] == 3) ||
-        (randomTwo+1 < grid[0].length && grid[randomOne][randomTwo+1] == 3) || 
-        (randomTwo-1 > 0 && grid[randomOne][randomTwo-1] == 3) ||  
-        (randomOne-1 > 0 && grid[randomOne -1][randomTwo] == 3) ||
-        (randomOne-1 > 0 && randomTwo+1 < grid[0].length && grid[randomOne-1][randomTwo+1] == 3) || 
-        (randomOne-1 > 0 && randomTwo-1 > 0 && grid[randomOne-1][randomTwo-1] == 3))){
+    if(grid[randomOne][randomTwo] == RUSTEDMETAL && (checkNeighbors(randomOne,randomTwo, WATER)))
+        {
       rustDestroyer +=1;
       if(rustDestroyer > 4000){
          grid[randomOne][randomTwo]=0;
@@ -147,28 +157,49 @@ public class SandLab
       }
    // System.out.println(random);
     }//System.out.println(grid[random][random]);
-    if(grid[randomOne][randomTwo] == 2)
+    if(grid[randomOne][randomTwo] == DIRT)
     {
       if(grid[randomOne+1][randomTwo]== 0){
          grid[randomOne][randomTwo]=0;
-         grid[randomOne+1][randomTwo]=2;
-      }else if(grid[randomOne+1][randomTwo]==3){
-         grid[randomOne][randomTwo] = 3;
-         grid[randomOne+1][randomTwo] = 2;
+         grid[randomOne+1][randomTwo]=DIRT;
+      }else if(grid[randomOne+1][randomTwo]==WATER){
+         grid[randomOne][randomTwo] = WATER;
+         grid[randomOne+1][randomTwo] = DIRT;
       }
-      
-    }else if(grid[randomOne][randomTwo] == 3){
+    
+    }if(grid[randomOne][randomTwo] == LAVA){
+    	if (checkNeighbors(randomOne,randomTwo, WATER)){
+    		grid[randomOne][randomTwo] = STONE;
+    	}
+    	lavacounter++;
+        double lavaRandom = Math.random();
+        if (lavacounter > 500){
+        	lavacounter = 0;
+            if(lavaRandom < 0.80 && grid[randomOne+1][randomTwo] == 0){
+                grid[randomOne][randomTwo]=0;
+                grid[randomOne+1][randomTwo]=LAVA;
+                
+             }else if(lavaRandom < 0.90 && randomTwo+1 < grid[0].length && grid[randomOne][randomTwo+1] == 0){
+                grid[randomOne][randomTwo]=0;
+                grid[randomOne][randomTwo+1]=LAVA;
+             }else if((randomTwo-1 >= 0) && (grid[randomOne][randomTwo-1] == 0)){
+                grid[randomOne][randomTwo]=0;
+                grid[randomOne][randomTwo-1]=LAVA;
+             }
+        }
+      }
+    else if(grid[randomOne][randomTwo] == WATER){
       double waterRandom = Math.random();
       if(waterRandom < 0.33 && grid[randomOne+1][randomTwo] == 0){
          grid[randomOne][randomTwo]=0;
-         grid[randomOne+1][randomTwo]=3;
+         grid[randomOne+1][randomTwo]=WATER;
          
       }else if(waterRandom < 0.66 && randomTwo+1 < grid[0].length && grid[randomOne][randomTwo+1] == 0){
          grid[randomOne][randomTwo]=0;
-         grid[randomOne][randomTwo+1]=3;
+         grid[randomOne][randomTwo+1]=WATER;
       }else if((randomTwo-1 >= 0) && (grid[randomOne][randomTwo-1] == 0)){
          grid[randomOne][randomTwo]=0;
-         grid[randomOne][randomTwo-1]=3;
+         grid[randomOne][randomTwo-1]=WATER;
       }
     
     }
