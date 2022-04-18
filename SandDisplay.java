@@ -49,12 +49,38 @@ public class SandDisplay extends JComponent implements MouseListener,
     topPanel.add(buttonPanel);
     
     buttons = new JButton[buttonNames.length];
-    
     for (int i = 0; i < buttons.length; i++)
     {
       buttons[i] = new JButton(buttonNames[i]);
       buttons[i].setActionCommand("" + i);
       buttons[i].addActionListener(this);
+     
+       switch(buttonNames[i]){
+       		case "Empty":
+       			buttons[i].setBackground(Color.BLACK);
+       			break;
+       		case "Metal":
+       			buttons[i].setBackground(new Color(100,100,100));
+       			break;
+       		case "Dirt":
+       			buttons[i].setBackground(new Color(101,67,33));
+       			break;
+       		case "Rusted Metal":
+       			buttons[i].setBackground(new Color(183,65,14));
+       			break;
+       		case "Lava":
+       			buttons[i].setBackground(new Color(200,75,0));
+       			break;
+       		case "Sand":
+       			buttons[i].setBackground(Color.yellow);
+       			break;
+       		case "Water":
+       			buttons[i].setBackground(Color.blue);
+       			break;
+       		case "Stone":
+       			buttons[i].setBackground(new Color(61,59,56));
+       	
+       }
       buttonPanel.add(buttons[i]);
     }
     

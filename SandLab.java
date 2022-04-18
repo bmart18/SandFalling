@@ -5,7 +5,7 @@ public class SandLab
 {
   public static void main(String[] args)
   {
-    SandLab lab = new SandLab(120, 80);
+    SandLab lab = new SandLab(120, 120);
     lab.run();
   }
   
