@@ -45,8 +45,8 @@ public class SandDisplay extends JComponent implements MouseListener,
     topPanel.add(this);
     
     JPanel buttonPanel = new JPanel();
-    buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.PAGE_AXIS));
-    topPanel.add(buttonPanel);
+    buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+    frame.getContentPane().add(buttonPanel);
     
     buttons = new JButton[buttonNames.length];
     for (int i = 0; i < buttons.length; i++)
