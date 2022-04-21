@@ -5,7 +5,7 @@ import java.util.*;
 import javax.swing.*;
 import javax.swing.event.*;
 
-public class SandDisplay extends JComponent implements MouseListener,
+public class PhysDisplay extends JComponent implements MouseListener,
   MouseMotionListener, ActionListener, ChangeListener
 {
   private Image image;
@@ -19,7 +19,7 @@ public class SandDisplay extends JComponent implements MouseListener,
   private JSlider slider;
   private int speed;
   
-  public SandDisplay(String title, int numRows, int numCols, String[] buttonNames)
+  public PhysDisplay(String title, int numRows, int numCols, String[] buttonNames)
   {
     this.numRows = numRows;
     this.numCols = numCols;

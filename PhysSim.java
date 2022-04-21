@@ -1,11 +1,11 @@
 import java.awt.*;
 import java.util.*;
 
-public class SandLab
+public class PhysSim
 {
   public static void main(String[] args)
   {
-    SandLab lab = new SandLab(120, 120);
+    PhysSim lab = new PhysSim(120, 120);
     lab.run();
   }
   
@@ -23,9 +23,9 @@ public class SandLab
   
   //do not add any more fields
   private int[][] grid;
-  private SandDisplay display;
+  private PhysDisplay display;
   
-  public SandLab(int numRows, int numCols)
+  public PhysSim(int numRows, int numCols)
   {
     String[] names;
     names = new String[8]; 
@@ -37,7 +37,7 @@ public class SandLab
     names[SAND] = "Sand";
     names[LAVA] = "Lava";
     names[STONE] = "Stone";
-    display = new SandDisplay("Falling Sand", numRows, numCols, names);
+    display = new PhysDisplay("457 Physics Simulation", numRows, numCols, names);
     
     grid = new int[numRows][numCols];
      
