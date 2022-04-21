@@ -8,7 +8,14 @@ public class PhysSim
     PhysSim lab = new PhysSim(120, 120);
     lab.run();
   }
-  
+  /*ANY NEW MATERIAL WILL NEED THE FOLLOWING - Brad Martin 2022
+   * initialize a public static final int with name in all caps and an int value not used right below this comment block
+   * increase the string array of names by one and add the string name of the material at the final int index you made EXAMPLE names[NEWMAT] = "New Mat";
+   * go to the updateDisplay() function in this class and make a new color for it, then add onto the else if statement to color it. (at this point maybe should switch it to a switch statement)
+   * go to the step() function and give it correct physics. it should add onto the else if statement to check if the selected block is the new material
+   * finally, go to the PhysDisplay class and add the button name as a case statement following the format of the other buttons (there is only one switch in the physdisplay). 
+   * you will have to hard code a new color (this changes the color of the button as it is created.
+   */
   public static final int EMPTY = 0;
   public static final int METAL = 1;
   public static final int DIRT = 2;
@@ -21,7 +28,6 @@ public class PhysSim
   public int rustDestroyer = 0;
   public int lavacounter = 0;
   
-  //do not add any more fields
   private int[][] grid;
   private PhysDisplay display;
   
